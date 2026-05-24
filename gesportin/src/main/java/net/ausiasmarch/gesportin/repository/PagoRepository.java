@@ -25,4 +25,7 @@ public interface PagoRepository extends JpaRepository<PagoEntity, Long> {
 
     // unicidad: un jugador no puede pagar la misma cuota dos veces
     boolean existsByCuotaIdAndJugadorId(Long cuotaId, Long jugadorId);
+
+    // comprobación de pago ya abonado (para la pasarela de pagos)
+    boolean existsByCuotaIdAndJugadorIdAndAbonadoTrue(Long cuotaId, Long jugadorId);
 }

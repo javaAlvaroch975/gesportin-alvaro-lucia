@@ -238,6 +238,25 @@ CREATE TABLE `pago` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `payment_session`
+--
+
+CREATE TABLE `payment_session` (
+  `id` bigint NOT NULL,
+  `session_token` varchar(64) NOT NULL,
+  `tipo` varchar(16) NOT NULL,
+  `id_referencia` bigint NOT NULL,
+  `id_cuota` bigint DEFAULT NULL,
+  `estado` varchar(16) NOT NULL,
+  `importe` decimal(10,2) NOT NULL,
+  `descripcion` varchar(512) NOT NULL,
+  `fecha` datetime NOT NULL,
+  `id_resultado` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `partido`
 --
 
@@ -485,6 +504,13 @@ ALTER TABLE `pago`
   ADD KEY `FKlj1d0yxpgf7kh9ykelhqrqs53` (`id_jugador`);
 
 --
+-- Indices de la tabla `payment_session`
+--
+ALTER TABLE `payment_session`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UK_session_token` (`session_token`);
+
+--
 -- Indices de la tabla `partido`
 --
 ALTER TABLE `partido`
@@ -634,6 +660,12 @@ ALTER TABLE `noticia`
 -- AUTO_INCREMENT de la tabla `pago`
 --
 ALTER TABLE `pago`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `payment_session`
+--
+ALTER TABLE `payment_session`
   MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
 
 --

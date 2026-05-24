@@ -207,6 +207,9 @@ import { FacturaUsuarioPlistPage } from './page/factura/usuario/plist/plist';
 import { JugadorUsuarioEquipoPlistPage } from './page/jugador/usuario/equipo-plist/plist';
 import { AdminDataToolsPage } from './page/admin/data-tools/data-tools';
 import { UsuarioPerfilPage } from './page/usuario/perfil/perfil';
+import { PaymentCheckoutPage } from './page/payment/checkout/checkout';
+import { PaymentSuccessPage } from './page/payment/success/success';
+import { PaymentCancelPage } from './page/payment/cancel/cancel';
 
 export const publicRoutes: Routes = [
   { path: '', component: LandingPage },
@@ -518,5 +521,9 @@ export const routes: Routes = [
   { path: 'mi/cuotas', component: CuotaUsuarioPlistPage, canActivate: [UsuarioGuard] },
   { path: 'mi/tienda', component: CarritoUsuarioTiendaPage, canActivate: [UsuarioGuard] },
   { path: 'mi/facturas', component: FacturaUsuarioPlistPage, canActivate: [UsuarioGuard] },
+  // Pasarela de pagos (perfil usuario)
+  { path: 'payment/checkout/:token', component: PaymentCheckoutPage, canActivate: [UsuarioGuard] },
+  { path: 'payment/success', component: PaymentSuccessPage, canActivate: [UsuarioGuard] },
+  { path: 'payment/cancel', component: PaymentCancelPage, canActivate: [UsuarioGuard] },
   ...protectedRoutes.map((r) => ({ ...r, canActivate: [AdminGuard] })), 
 ];

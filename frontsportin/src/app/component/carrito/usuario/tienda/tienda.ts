@@ -1,6 +1,7 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IArticulo } from '../../../../model/articulo';
 import { ITipoarticulo } from '../../../../model/tipoarticulo';
 import { ICarrito } from '../../../../model/carrito';
@@ -12,6 +13,7 @@ import { CarritoService } from '../../../../service/carrito';
 import { ComentarioartService } from '../../../../service/comentarioart';
 import { PuntuacionartService } from '../../../../service/puntuacionart';
 import { SessionService } from '../../../../service/session';
+import { PaymentService } from '../../../../service/payment.service';
 import { forkJoin, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -34,6 +36,8 @@ export class CarritoUsuarioTienda implements OnInit {
   private comentarioartService = inject(ComentarioartService);
   private puntuacionartService = inject(PuntuacionartService);
   private session = inject(SessionService);
+  private paymentService = inject(PaymentService);
+  private router = inject(Router);
 
   grupos = signal<TiendaGroup[]>([]);
   carrito = signal<ICarrito[]>([]);
@@ -161,15 +165,14 @@ export class CarritoUsuarioTienda implements OnInit {
       return;
     }
     this.comprando.set(true);
-    this.carritoService.comprar().subscribe({
-      next: () => {
+    this.paymentService.iniciarTienda().subscribe({
+      next: (session) => {
         this.comprando.set(false);
-        this.showMessage('¡Compra realizada con éxito! Puedes ver tu factura en Mis Facturas.', 'success');
-        this.loadCarrito();
+        this.router.navigate(['/payment/checkout', session.sessionToken]);
       },
-      error: () => {
+      error: (err) => {
         this.comprando.set(false);
-        this.showMessage('Error al procesar la compra', 'danger');
+        this.showMessage(err?.error?.message ?? 'Error al iniciar el pago', 'danger');
       },
     });
   }
