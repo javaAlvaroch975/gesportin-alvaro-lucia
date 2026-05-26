@@ -63,7 +63,7 @@ export class PagoAdminForm implements OnInit {
       id: [{ value: 0, disabled: true }],
       id_cuota: [null, Validators.required],
       id_jugador: [null, Validators.required],
-      abonado: [0, [Validators.required, Validators.min(0)]],
+      abonado: [false, [Validators.required]],
       fecha: ['', Validators.required],
     });
   }
