@@ -62,7 +62,7 @@ export class PagoTeamadminForm implements OnInit {
       id: [{ value: 0, disabled: true }],
       id_cuota: [null, Validators.required],
       id_jugador: [null, Validators.required],
-      abonado: [0, [Validators.required, Validators.min(0)]],
+      abonado: [false],
       fecha: ['', Validators.required],
     });
   }
@@ -87,7 +87,7 @@ export class PagoTeamadminForm implements OnInit {
       id: pago.id,
       id_cuota: pago.cuota?.id,
       id_jugador: pago.jugador?.id,
-      abonado: pago.abonado,
+      abonado: Boolean(pago.abonado),
       fecha: pago.fecha,
     });
     if (pago.cuota?.id) this.loadCuota(pago.cuota.id);
