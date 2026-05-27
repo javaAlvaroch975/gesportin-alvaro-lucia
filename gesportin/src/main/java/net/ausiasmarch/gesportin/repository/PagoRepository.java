@@ -1,5 +1,7 @@
 package net.ausiasmarch.gesportin.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,4 +30,7 @@ public interface PagoRepository extends JpaRepository<PagoEntity, Long> {
 
     // comprobación de pago ya abonado (para la pasarela de pagos)
     boolean existsByCuotaIdAndJugadorIdAndAbonadoTrue(Long cuotaId, Long jugadorId);
+
+    // pago pendiente para reutilizarlo al confirmar la pasarela
+    Optional<PagoEntity> findFirstByCuotaIdAndJugadorIdAndAbonadoFalseOrderByIdDesc(Long cuotaId, Long jugadorId);
 }
