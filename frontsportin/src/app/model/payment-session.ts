@@ -1,9 +1,14 @@
 export interface IPaymentSession {
+  id?: number;
   sessionToken: string;
   tipo: string;
-  descripcion: string;
-  importe: number;
+  idReferencia?: number;
+  idCuota?: number;
   estado: string;
+  importe: number;
+  descripcion: string;
+  fecha?: string;
+  idResultado?: number;
 }
 
 export interface IPaymentConfirm {

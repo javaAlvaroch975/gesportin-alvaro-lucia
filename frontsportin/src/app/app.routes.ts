@@ -210,6 +210,7 @@ import { UsuarioPerfilPage } from './page/usuario/perfil/perfil';
 import { PaymentCheckoutPage } from './page/payment/checkout/checkout';
 import { PaymentSuccessPage } from './page/payment/success/success';
 import { PaymentCancelPage } from './page/payment/cancel/cancel';
+import { PaymentAdminPlistPage } from './page/payment/admin/plist/plist';
 
 export const publicRoutes: Routes = [
   { path: '', component: LandingPage },
@@ -476,6 +477,9 @@ const protectedRoutes: Routes = [
   { path: 'pago/edit/:id', component: PagoAdminEditPage, data: { allowClubAdmin: true } },
 
   { path: 'pago/delete/:id', component: PagoAdminDeletePage, data: { allowClubAdmin: true } },
+
+  // Pasarela de pagos — listado de sesiones (admin)
+  { path: 'payment/admin', component: PaymentAdminPlistPage },
 
   {
     path: 'categoria/delete/:id',

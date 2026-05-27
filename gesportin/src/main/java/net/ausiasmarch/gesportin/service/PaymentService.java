@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,6 +68,28 @@ public class PaymentService {
 
     @Autowired
     private UsuarioRepository oUsuarioRepository;
+
+    // ---------------------------------------------------------------
+    // LISTADO PARA ADMIN Y EQUIPO-ADMIN
+    // ---------------------------------------------------------------
+
+    public Page<PaymentSessionEntity> getPage(Pageable pageable, String tipo, String estado) {
+        if (!oSessionService.isAdmin() && !oSessionService.isEquipoAdmin()) {
+            throw new UnauthorizedException("Acceso denegado");
+        }
+        boolean hasTipo = tipo != null && !tipo.isBlank();
+        boolean hasEstado = estado != null && !estado.isBlank();
+
+        if (hasTipo && hasEstado) {
+            return oPaymentSessionRepository.findByTipoAndEstado(tipo, estado, pageable);
+        } else if (hasTipo) {
+            return oPaymentSessionRepository.findByTipo(tipo, pageable);
+        } else if (hasEstado) {
+            return oPaymentSessionRepository.findByEstado(estado, pageable);
+        } else {
+            return oPaymentSessionRepository.findAll(pageable);
+        }
+    }
 
     // ---------------------------------------------------------------
     // INICIAR SESIÓN DE PAGO — CUOTA

@@ -13,6 +13,7 @@ import net.ausiasmarch.gesportin.bean.PaymentConfirmRequestBean;
 import net.ausiasmarch.gesportin.bean.PaymentConfirmBean;
 import net.ausiasmarch.gesportin.bean.PaymentSessionBean;
 import net.ausiasmarch.gesportin.bean.PaymentSessionTokenBean;
+import net.ausiasmarch.gesportin.entity.PaymentSessionEntity;
 import net.ausiasmarch.gesportin.service.PaymentService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
@@ -73,5 +74,24 @@ public class PaymentApi {
     @PostMapping("/cancelar")
     public ResponseEntity<PaymentSessionBean> cancelar(@RequestBody PaymentSessionTokenBean request) {
         return ResponseEntity.ok(oPaymentService.cancelarPago(request.getSessionToken()));
+    }
+
+    /**
+     * Listado paginado de sesiones de pago para administradores y admins de club.
+     * GET /payment/admin/page
+     */
+    @GetMapping("/admin/page")
+    public ResponseEntity<Page<PaymentSessionEntity>> getPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int rpp,
+            @RequestParam(defaultValue = "fecha") String orderField,
+            @RequestParam(defaultValue = "desc") String orderDirection,
+            @RequestParam(defaultValue = "") String tipo,
+            @RequestParam(defaultValue = "") String estado) {
+        Sort sort = orderDirection.equalsIgnoreCase("asc")
+                ? Sort.by(orderField).ascending()
+                : Sort.by(orderField).descending();
+        PageRequest pageable = PageRequest.of(page, rpp, sort);
+        return ResponseEntity.ok(oPaymentService.getPage(pageable, tipo, estado));
     }
 }
