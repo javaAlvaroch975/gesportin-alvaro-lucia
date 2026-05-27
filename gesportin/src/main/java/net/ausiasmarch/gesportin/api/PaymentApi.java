@@ -1,17 +1,12 @@
 package net.ausiasmarch.gesportin.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import net.ausiasmarch.gesportin.bean.PaymentConfirmRequestBean;
@@ -27,36 +22,6 @@ public class PaymentApi {
 
     @Autowired
     private PaymentService oPaymentService;
-
-    /**
-     * Lista paginada de todas las sesiones de pago (solo Admin).
-     * GET /payment/admin/plist?page=0&size=10&sort=id,desc
-     */
-    @GetMapping("/admin/plist")
-    public ResponseEntity<Page<net.ausiasmarch.gesportin.bean.PaymentSessionBean>> getPageAdmin(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String sort,
-            @RequestParam(defaultValue = "desc") String direction) {
-        Sort.Direction dir = "desc".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC;
-        PageRequest pageable = PageRequest.of(page, size, Sort.by(dir, sort));
-        return ResponseEntity.ok(oPaymentService.getPageAdmin(pageable));
-    }
-
-    /**
-     * Lista paginada de sesiones de pago del club del admin de club (solo EquipoAdmin).
-     * GET /payment/teamadmin/plist?page=0&size=10
-     */
-    @GetMapping("/teamadmin/plist")
-    public ResponseEntity<Page<net.ausiasmarch.gesportin.bean.PaymentSessionBean>> getPageTeamAdmin(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String sort,
-            @RequestParam(defaultValue = "desc") String direction) {
-        Sort.Direction dir = "desc".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC;
-        PageRequest pageable = PageRequest.of(page, size, Sort.by(dir, sort));
-        return ResponseEntity.ok(oPaymentService.getPageTeamAdmin(pageable));
-    }
 
     /**
      * Inicia una sesión de pago para una cuota de club.

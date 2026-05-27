@@ -210,8 +210,6 @@ import { UsuarioPerfilPage } from './page/usuario/perfil/perfil';
 import { PaymentCheckoutPage } from './page/payment/checkout/checkout';
 import { PaymentSuccessPage } from './page/payment/success/success';
 import { PaymentCancelPage } from './page/payment/cancel/cancel';
-import { PaymentAdminPlistPage } from './page/payment/admin/plist/plist';
-import { PaymentTeamadminPlistPage } from './page/payment/teamadmin/plist/plist';
 
 export const publicRoutes: Routes = [
   { path: '', component: LandingPage },
@@ -1055,8 +1053,5 @@ export const routes: Routes = [
   { path: 'payment/checkout', component: PaymentCheckoutPage, canActivate: [UsuarioGuard] },
   { path: 'payment/success', component: PaymentSuccessPage, canActivate: [UsuarioGuard] },
   { path: 'payment/cancel', component: PaymentCancelPage, canActivate: [UsuarioGuard] },
-  // Pasarela de pagos — monitorización (admin y club-admin)
-  { path: 'payment/admin', component: PaymentAdminPlistPage, canActivate: [AdminGuard] },
-  { path: 'payment/teamadmin', component: PaymentTeamadminPlistPage, canActivate: [ClubAdminGuard] },
   ...protectedRoutes.map((r) => ({ ...r, canActivate: [AdminGuard] })),
 ];

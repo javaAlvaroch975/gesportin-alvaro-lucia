@@ -1,7 +1,5 @@
 package net.ausiasmarch.gesportin.bean;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,11 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentSessionBean {
-    private Long id;
     private String sessionToken;
     private String tipo;
     private String descripcion;
     private double importe;
     private String estado;
-    private LocalDateTime fecha;
 }

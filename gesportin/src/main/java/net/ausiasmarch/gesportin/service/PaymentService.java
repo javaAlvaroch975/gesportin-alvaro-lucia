@@ -9,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import net.ausiasmarch.gesportin.bean.PaymentConfirmBean;
 import net.ausiasmarch.gesportin.bean.PaymentSessionBean;
 import net.ausiasmarch.gesportin.entity.CarritoEntity;
@@ -69,25 +66,6 @@ public class PaymentService {
 
     @Autowired
     private UsuarioRepository oUsuarioRepository;
-
-    // ---------------------------------------------------------------
-    // LISTADOS PARA ADMIN Y EQUIPO-ADMIN
-    // ---------------------------------------------------------------
-
-    public Page<PaymentSessionBean> getPageAdmin(Pageable pageable) {
-        if (!oSessionService.isAdmin()) {
-            throw new UnauthorizedException("Acceso denegado: solo administradores");
-        }
-        return oPaymentSessionRepository.findAll(pageable).map(this::toBean);
-    }
-
-    public Page<PaymentSessionBean> getPageTeamAdmin(Pageable pageable) {
-        if (!oSessionService.isEquipoAdmin()) {
-            throw new UnauthorizedException("Acceso denegado: solo administradores de club");
-        }
-        Long clubId = oSessionService.getIdClub();
-        return oPaymentSessionRepository.findByClubId(clubId, pageable).map(this::toBean);
-    }
 
     // ---------------------------------------------------------------
     // INICIAR SESIÓN DE PAGO — CUOTA
@@ -359,12 +337,10 @@ public class PaymentService {
 
     private PaymentSessionBean toBean(PaymentSessionEntity e) {
         return new PaymentSessionBean(
-                e.getId(),
                 e.getSessionToken(),
                 e.getTipo(),
                 e.getDescripcion(),
                 e.getImporte().doubleValue(),
-                e.getEstado(),
-                e.getFecha());
+                e.getEstado());
     }
 }

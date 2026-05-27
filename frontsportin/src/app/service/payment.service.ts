@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { serverURL } from '../environment/environment';
 import { IPaymentConfirm, IPaymentSession } from '../model/payment-session';
-import { IPage } from '../model/plist';
 
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
@@ -28,25 +27,5 @@ export class PaymentService {
 
   cancelar(sessionToken: string): Observable<IPaymentSession> {
     return this.http.post<IPaymentSession>(`${this.url}/cancelar`, { sessionToken });
-  }
-
-  getPageAdmin(
-    page: number = 0,
-    size: number = 10,
-    sort: string = 'id',
-    direction: string = 'desc',
-  ): Observable<IPage<IPaymentSession>> {
-    const url = `${this.url}/admin/plist?page=${page}&size=${size}&sort=${sort}&direction=${direction}`;
-    return this.http.get<IPage<IPaymentSession>>(url);
-  }
-
-  getPageTeamAdmin(
-    page: number = 0,
-    size: number = 10,
-    sort: string = 'id',
-    direction: string = 'desc',
-  ): Observable<IPage<IPaymentSession>> {
-    const url = `${this.url}/teamadmin/plist?page=${page}&size=${size}&sort=${sort}&direction=${direction}`;
-    return this.http.get<IPage<IPaymentSession>>(url);
   }
 }
