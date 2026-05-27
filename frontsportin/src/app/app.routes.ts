@@ -211,6 +211,7 @@ import { PaymentCheckoutPage } from './page/payment/checkout/checkout';
 import { PaymentSuccessPage } from './page/payment/success/success';
 import { PaymentCancelPage } from './page/payment/cancel/cancel';
 import { PaymentAdminPlistPage } from './page/payment/admin/plist/plist';
+import { PaymentTeamadminPlistPage } from './page/payment/teamadmin/plist/plist';
 
 export const publicRoutes: Routes = [
   { path: '', component: LandingPage },
@@ -610,6 +611,7 @@ export const routes: Routes = [
     canActivate: [ClubAdminGuard],
   },
   { path: 'pago/teamadmin', component: PagoTeamadminPlistPage, canActivate: [ClubAdminGuard] },
+  { path: 'payment/teamadmin', component: PaymentTeamadminPlistPage, canActivate: [ClubAdminGuard] },
   {
     path: 'pago/teamadmin/cuota/:id_cuota',
     component: PagoTeamadminPlistPage,
